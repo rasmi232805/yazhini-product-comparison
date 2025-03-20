@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import products from "./products";
+import ProductCard from "./ProductCard";
+import ComparisonTable from "./ComparisonTable";
 import './App.css';
 
-function App() {
+
+const App = () => {
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const handleSelect = (product) => {
+    if (!selectedProducts.includes(product) && selectedProducts.length < 3) {
+      setSelectedProducts([...selectedProducts, product]);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Product Comparison App</h1>
+      <div className="product-list">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} handleSelect={handleSelect} />
+        ))}
+      </div>
+      {selectedProducts.length > 0 && <ComparisonTable selectedProducts={selectedProducts} />}
     </div>
   );
-}
+};
 
 export default App;
